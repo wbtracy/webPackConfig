@@ -1,14 +1,15 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom';
-
-import Home from '../pages/Home/Home';
-import Page1 from '../pages/Page1/Page1';
+import Home from '../pages/Home';
 import Breadcrumcustom from './BreadcrumCustom';
+import { default as Routes } from '../manifest';
 import {Menu} from 'antd';
 import {Layout, Button, Icon} from 'antd';
 const { Header, Footer, Sider, Content } = Layout;
 
 const SubMenu = Menu.SubMenu;
+
+import menu from '../menu';
 
 export default class PageRouter extends React.Component{
 
@@ -44,7 +45,6 @@ export default class PageRouter extends React.Component{
         })
     }
     render() {
-        console.log(this.state)
         return (
             <Router>
                 <div>
@@ -60,26 +60,39 @@ export default class PageRouter extends React.Component{
                                   openKeys={this.state.openKeys}
                                   onOpenChange={this.onOpenChange}
                             >
-                                <SubMenu key="sub1" title={<span><Icon type="user" /><span>内容管理</span></span>}>
-                                    <Menu.Item key="1"><Link to="/contentmanage/onlinemanage">线上内容管理</Link></Menu.Item>
-                                    <Menu.Item key="2"><Link to="/contentmanage/firsttrail">网络文章初审</Link></Menu.Item>
-                                    <Menu.Item key="3"><Link to="/contentmanage/reexamine">网络文章复审</Link></Menu.Item>
-                                </SubMenu>
-                                <SubMenu key="sub2" title={<span><Icon type="user" /><span>内容安全</span></span>}>
-                                    <Menu.Item key="4"><Link to="/page3">敏感词管理</Link></Menu.Item>
-                                </SubMenu>
-                                <SubMenu key="sub3" title={<span><Icon type="user" /><span>平台管理</span></span>}>
-                                    <Menu.Item key="5"><Link to="/page4">审核记录查询</Link></Menu.Item>
-                                    <Menu.Item key="6"><Link to="/page5">审核成员管理</Link></Menu.Item>
-                                </SubMenu>
+                                <Menu.Item>
+                                    <Link to='/'>
+                                        <Icon type='home'/>首页
+                                    </Link>
+                                </Menu.Item>
+                                {
+                                    menu.map((item, i) =>
+                                      <SubMenu key={`sub${i + 1}`}
+                                        title={<span><Icon type={item.svg ? item.svg : "user"} />
+                                            <span>{item.name}</span>
+                                        </span>}>
+                                          {
+                                              item.children ? item.children.map(
+                                                (ite, i) =>
+                                                  <Menu.Item key={i}><Link to={ite.route}>
+                                                      <Icon type={item.svg ? item.svg : "table"} />{ite.name}
+                                                  </Link></Menu.Item>
+                                              ) : null
+                                          }
+                                      </SubMenu>
+                                    )
+                                }
                             </Menu>
                         </Sider>
                         <Layout>
-                            <Content style={{ margin: '0 16px' }}>
+                            <Breadcrumcustom />
+                            <Content style={{ backgroundColor: "#FFFFFF", margin: '0 16px' }}>
                                 <Switch>
-                                    <Route exact path="/contentmanage/onlinemanage" component={Home}/>
-                                    <Route path="/contentmanage/firsttrail" component={Page1}/>
+                                    <Route exact path="/" component={Home}/>
                                 </Switch>
+                                {
+                                    Object.keys(Routes).map((item, i) => React.createElement(Routes[item], {name: item, key: i}))
+                                }
                             </Content>
                         </Layout>
                     </Layout>

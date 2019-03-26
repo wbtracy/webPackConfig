@@ -21,7 +21,13 @@ export default class Home extends Component {
         })
     }
     handleTransfer = () => {
-        this.props.history.push('/page3');
+        const path = {
+            pathname: '/contentmanage/firsttrail',
+            query: {
+                name: 1,
+            }
+        }
+        this.props.history.push(path);
     }
     render() {
         return (

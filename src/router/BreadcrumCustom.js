@@ -2,40 +2,31 @@ import React, { Component } from 'react';
 import { Breadcrumb, Switch, Icon } from 'antd';
 import { Link } from 'react-router-dom';
 import PropTypes from "prop-types";
+import menu from './resolveMenu';
 //具体导航的名称
-const breadcrumbNameMap = {
-    '/contentmanage': '内容管理',
-    '/contentmanage/firsttrail': '网络文章初审',
-    '/contentmanage/reexamine': '网络文章复审',
-};
+
 class BreadcrumbCustom extends Component {
     //利用PropTypes记住所跳转每个页面的位置
     static contextTypes = {
         router: PropTypes.object
     }
-    constructor(props, context) {
-        super(props, context);
+    constructor(props) {
+        super(props);
         this.state = {
-            pathSnippets: null,
-            extraBreadcrumbItems: null
+            extraBreadcrumbItems: []
         }
     }
     getPath() {
         //对路径进行切分，存放到this.state.pathSnippets中
-        this.state.pathSnippets = this.context.router.history.location.pathname.split('/').filter(i => i);
-        //将切分的路径读出来，形成面包屑，存放到this.state.extraBreadcrumbItems
-        this.state.extraBreadcrumbItems = this.state.pathSnippets.map((_, index) => {
-            const url = `/${this.state.pathSnippets.slice(0, index + 1).join('/')}`;
-            console.log('url')
-            console.log(url)
-            return (
-                <Breadcrumb.Item key={url}>
-                    <Link to={url}>
-                        {breadcrumbNameMap[url]}
-                    </Link>
-                </Breadcrumb.Item>
-            );
+        const path = this.context.router.history.location.pathname.split('/').filter(i => {
+            return i
         });
+        const breadItem = path
+          .map((_, index) => `/${path.slice(0, index + 1).join('/')}`);
+        //将切分的路径读出来，形成面包屑，存放到this.state.extraBreadcrumbItems
+        this.setState({
+            extraBreadcrumbItems: breadItem
+        })
     }
 
     componentWillMount() {
@@ -47,12 +38,26 @@ class BreadcrumbCustom extends Component {
         this.getPath();
     }
     render() {
+        const { extraBreadcrumbItems } = this.state;
+        console.log(extraBreadcrumbItems);
         return (
-
             <span>
-                <Breadcrumb style={{ margin: '12px 0' }}>
-             //将形成的面包屑引用进来，即可完成如图所示的动画效果
-                    {this.state.extraBreadcrumbItems}
+                <Breadcrumb style={{ margin: '12px 0 12px 16px', color: "#000000" }}>
+                    {
+                        extraBreadcrumbItems.length === 0 ?
+                          <Breadcrumb.Item key={0}>
+                              <Link to='/'>
+                                  首页
+                              </Link>
+                          </Breadcrumb.Item> :
+                          extraBreadcrumbItems.map(item =>
+                          <Breadcrumb.Item key={item}>
+                              <Link to={item}>
+                                  {menu[item]}
+                              </Link>
+                          </Breadcrumb.Item>
+                        )
+                    }
                 </Breadcrumb>
             </span>
         )

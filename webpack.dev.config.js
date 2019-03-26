@@ -1,11 +1,12 @@
 const path = require('path');
 const webpack = require('webpack');
+
 module.exports = {
 
     /*入口*/
     entry: [
         'react-hot-loader/patch',
-        path.join(__dirname, 'src/index.js')
+        path.join(__dirname, './src/index.js')
     ],
 
     devtool: 'inline-source-map',
@@ -39,6 +40,7 @@ module.exports = {
         port: 8888,
         contentBase: path.join(__dirname, './dist'),
         historyApiFallback: true,
+        inline: true,
         host: '0.0.0.0',
         hot: true
     },
