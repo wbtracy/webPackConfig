@@ -48,52 +48,57 @@ export default class PageRouter extends React.Component{
         return (
             <Router>
                 <div>
-                    <Layout>
-                        <Sider style={{ overflow: 'auto', height: '100vh', left: 0 }}
-                               collapsible
-                               collapsed={this.state.collapsed}
-                               onCollapse={this.toggle}
-                        >
-                            <div className="logo" style={{height: "30px"}}/>
-                            <Menu theme="dark"
-                                  mode="inline"
-                                  openKeys={this.state.openKeys}
-                                  onOpenChange={this.onOpenChange}
-                            >
-                                <Menu.Item>
-                                    <Link to='/'>
-                                        <Icon type='home'/>首页
-                                    </Link>
-                                </Menu.Item>
-                                {
-                                    menu.map((item, i) =>
-                                      <SubMenu key={`sub${i + 1}`}
-                                        title={<span><Icon type={item.svg ? item.svg : "user"} />
-                                            <span>{item.name}</span>
-                                        </span>}>
-                                          {
-                                              item.children ? item.children.map(
-                                                (ite, i) =>
-                                                  <Menu.Item key={i}><Link to={ite.route}>
-                                                      <Icon type={item.svg ? item.svg : "table"} />{ite.name}
-                                                  </Link></Menu.Item>
-                                              ) : null
-                                          }
-                                      </SubMenu>
-                                    )
-                                }
-                            </Menu>
-                        </Sider>
+                    <Layout style={{height: '100vh'}}>
+                        <Header style={{height: '60px'}}>
+                            <img style={{width: '60px', height: '60px'}} src='/image/lakers.jpg' />
+                        </Header>
                         <Layout>
-                            <Breadcrumcustom />
-                            <Content style={{ backgroundColor: "#FFFFFF", margin: '0 16px' }}>
-                                <Switch>
-                                    <Route exact path="/" component={Home}/>
-                                </Switch>
-                                {
-                                    Object.keys(Routes).map((item, i) => React.createElement(Routes[item], {name: item, key: i}))
-                                }
-                            </Content>
+                            <Sider style={{ overflow: 'auto', minHeight: 'cal(100vh - 60px)', left: 0 }}
+                                   collapsible
+                                   collapsed={this.state.collapsed}
+                                   onCollapse={this.toggle}
+                            >
+                                <div className="logo" style={{height: "30px"}}/>
+                                <Menu theme="dark"
+                                      mode="inline"
+                                      openKeys={this.state.openKeys}
+                                      onOpenChange={this.onOpenChange}
+                                >
+                                    <Menu.Item>
+                                        <Link to='/'>
+                                            <Icon type='home'/>首页
+                                        </Link>
+                                    </Menu.Item>
+                                    {
+                                        menu.map((item, i) =>
+                                          <SubMenu key={`sub${i + 1}`}
+                                            title={<span><Icon type={item.svg ? item.svg : "user"} />
+                                                <span>{item.name}</span>
+                                            </span>}>
+                                              {
+                                                  item.children ? item.children.map(
+                                                    (ite, i) =>
+                                                      <Menu.Item key={i}><Link to={ite.route}>
+                                                          <Icon type={item.svg ? item.svg : "table"} />{ite.name}
+                                                      </Link></Menu.Item>
+                                                  ) : null
+                                              }
+                                          </SubMenu>
+                                        )
+                                    }
+                                </Menu>
+                            </Sider>
+                            <Layout>
+                                <Breadcrumcustom />
+                                <Content style={{ backgroundColor: "#FFFFFF", margin: '0 16px' }}>
+                                    <Switch>
+                                        <Route exact path="/" component={Home}/>
+                                    </Switch>
+                                    {
+                                        Object.keys(Routes).map((item, i) => React.createElement(Routes[item], {name: item, key: i}))
+                                    }
+                                </Content>
+                            </Layout>
                         </Layout>
                     </Layout>
                 </div>

@@ -1,13 +1,16 @@
 import React from 'react';
+import Home from './container';
+import { Provider } from 'mobx-react';
+import Clock from './stores/Clock';
 
-export default class Home extends React.Component{
+export default class HomeContainer extends React.Component{
 
   render() {
 
     return (
-      <div>
-        欢迎来到xx的世界！
-      </div>
+      <Provider store={Clock}>
+        <Home/>
+      </Provider>
     )
   }
 }

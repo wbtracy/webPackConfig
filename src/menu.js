@@ -1,5 +1,5 @@
 export default [{
-  name: '个人简介',
+  name: 'introduction',
   route: '/personal',
   svg: "",
   children: [{
@@ -16,7 +16,7 @@ export default [{
     svg: ""
   }]
 }, {
-  name: '完成项目',
+  name: 'project',
   route: '/project',
   svg: "",
   children: [{
@@ -31,5 +31,22 @@ export default [{
     name: 'table',
     route: '/project/table',
     svg: ""
+  }]
+}, {
+  name: '问题实验',
+  route: '/test',
+  svg: '',
+  children: [{
+    name: 'CssModules',
+    route: '/test/cssModules',
+    svg: ''
+  }, {
+    name: 'ImagePlay',
+    route: '/test/imagePlay',
+    svg: ''
+  }, {
+    name: 'DownloadCharts',
+    route: '/test/downloadCharts',
+    svg: ''
   }]
 }]

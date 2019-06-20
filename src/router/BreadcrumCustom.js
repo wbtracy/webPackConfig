@@ -39,7 +39,6 @@ class BreadcrumbCustom extends Component {
     }
     render() {
         const { extraBreadcrumbItems } = this.state;
-        console.log(extraBreadcrumbItems);
         return (
             <span>
                 <Breadcrumb style={{ margin: '12px 0 12px 16px', color: "#000000" }}>

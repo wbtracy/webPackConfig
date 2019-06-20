@@ -23,14 +23,23 @@ module.exports = {
           use: ['babel-loader?cacheDirectory=true'],
           include: path.join(__dirname, 'src')
       }, {
-          test: /\.css$/,
-          use: ['style-loader', 'css-loader']
+          test: /\.(css|less)$/,
+          exclude:[/node_modules/],
+          loaders: ['style-loader?sourceMap',
+              'css-loader?modules&importLoaders=1&localIdentName=[name]-[hash:base64:5]',
+              'less-loader?modules&importLoaders=1&localIdentName=[name]-[hash:base64:5]']
+      }, {
+          test: /\.(css|less)$/,
+          include: [/node_modules/],
+          loader: 'style-loader!css-loader!less-loader'
       }, {
           test: /\.(png|jpg|gif|JPG)$/,
           use: [{
               loader: 'url-loader',
               options: {
-                  limit: 8192,
+                  limit: 100000,
+                  name: '[name].[ext]',
+                  outputPath: '/image'
               }
           }]
       }]
